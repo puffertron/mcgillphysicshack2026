@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://c2565rf0721nv"]
+
+[ext_resource type="Shader" uid="uid://bg5vaffi0jbuh" path="res://Shaders/fluid_point.gdshader" id="1_1xut2"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_1xut2")

@@ -15,4 +15,6 @@ func setup(grid_pos, pos):
 	grid_position = grid_pos
 	position = pos
 	
+
+	
 	

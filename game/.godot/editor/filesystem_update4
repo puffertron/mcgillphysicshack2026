@@ -4,3 +4,7 @@ res://keymapping.gd
 res://FluidPoint.gd
 res://node_3d.tscn
 res://fluid_point.tscn
+res://Nodes/fluid_point.tscn
+res://Nodes/FluidDomain.tscn
+res://Scripts/FluidPoint.gd
+res://Scripts/FluidDomain.gd
