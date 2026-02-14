@@ -46,9 +46,12 @@ func update(delta):
 	var flows = []
 	var netFlow = 0
 	for i in range(6):
-		var incoming_pressure = neighbors[i].pressure
-		difference_pressure = pressure - incoming_pressure
-		difference_pressures.append(difference_pressure)
+		if neighbors[i] == null:
+			pass
+		else:
+			var incoming_pressure = neighbors[i].pressure
+			difference_pressure = pressure - incoming_pressure
+			difference_pressures.append(difference_pressure)
 		
 		# Calc flow between each neighbor
 		var flow = difference_pressure*delta*flow_per_pressure
