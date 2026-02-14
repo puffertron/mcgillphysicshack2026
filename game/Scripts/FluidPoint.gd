@@ -17,6 +17,18 @@ var velocity : Vector3
 var acceleration :  Vector3
 var viscosity : float
 
+func _ready():
+	highlight.visible = false
+
+func highlight_on():
+	highlighted = true
+	highlight.visible = true
+	
+func highlight_off():
+	highlighted = false
+	highlight.visible = false
+
+
 func setup(grid_pos, pos):
 	grid_position = grid_pos
 	position = pos
