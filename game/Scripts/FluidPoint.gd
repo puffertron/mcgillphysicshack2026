@@ -2,6 +2,7 @@ class_name FluidPoint
 extends Node3D
 static var scene = load("res://fluid_point.tscn") 
 
+var domain
 
 var grid_position :Vector3i
 var pressure : float
@@ -14,6 +15,9 @@ var viscosity : float
 func setup(grid_pos, pos):
 	grid_position = grid_pos
 	position = pos
+
+func update(delta):
+	pass
 	
 
 	

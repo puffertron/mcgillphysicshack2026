@@ -9,28 +9,28 @@ func _ready():
 func _process(delta):
 	pass
 	
-func get_point_neighbors(point: FluidPoint) -> Array[FluidPoint]:
+func ortho_neighbor_grid() -> Array[Vector3i]:
+	var neighbors
+	for x in range(3):
+		for y in range(3):
+			for z in range(3):
+				var p
+				
+	return neighbors
+				
+func get_point_at_pos(pos:Vector3i) -> FluidPoint:
+	return fluid_points[pos.x][pos.y][pos.z]
+		
+"""returns an array of neighbors from a FluidPoint in along the X, Y and Z axes (No diagonals). """
+func get_orthogonal_neighbors(point: FluidPoint) -> Array[FluidPoint]:
 	var look_pos: Vector3i 
-	var neighbors = [
-		[ #top row
-		[look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(0,-1,-1), look_pos + Vector3i(1,-1,-1)],
-		[look_pos + Vector3i(1,-1,-1), look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(-1,-1,-1)],
-		[look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(-1,-1,-1)]
-		],
-		[ #middle row
-		[look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(-1,-1,-1)],
-		[look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(-1,-1,-1)],
-		[look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(-1,-1,-1)]
-		],
-		[ # bottom row
-		[look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(-1,-1,-1)],
-		[look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(-1,-1,-1)],
-		[look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(-1,-1,-1), look_pos + Vector3i(-1,-1,-1)]
-		],
-	]
-	
-	
-	return 
+	var neighbor_pos = ortho_neighbor_grid()
+	var neighbors 
+	for p in neighbor_pos:
+		var neighbor = get_point_at_pos(look_pos + neighbor_pos)
+		neighbors.append(neighbor)
+		
+	return neighbors
 		
 
 func generate_field(size: Vector3i, cell_size: float):
@@ -53,6 +53,7 @@ func generate_field(size: Vector3i, cell_size: float):
 			for z in range (size.z):
 				var new_point = fluid_point_scene.instantiate()
 				new_point.call("setup", Vector3i(x,y,z), Vector3(x,y,z)*cell_size)
+				new_point.domain = self
 				add_child(new_point)
 				fluid_points[x][y][z] = new_point
 	
