@@ -10,9 +10,13 @@ config_version=5
 
 [application]
 
-config/name="Test Keyboard Mapping"
+config/name="McGillPhysicsHack2026"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[godots]
+
+version_hint=""
 
 [physics]
 

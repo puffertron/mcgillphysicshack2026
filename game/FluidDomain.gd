@@ -7,4 +7,5 @@ func _ready():
 func _process(delta):
 	pass
 
-func generate_field(resolution)
+func generate_field(size: Vector3i, cell_size: float)
+	pass
