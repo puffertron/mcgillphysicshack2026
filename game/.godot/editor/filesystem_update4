@@ -1,8 +1,8 @@
-res://FluidDomain.tscn
-res://FluidDomain.gd
-res://keymapping.gd
-res://FluidPoint.gd
 res://node_3d.tscn
+res://keymapping.gd
+res://main.tscn
+res://FluidDomain.gd
+res://FluidPoint.gd
 res://fluid_point.tscn
 res://Nodes/fluid_point.tscn
 res://Nodes/FluidDomain.tscn
