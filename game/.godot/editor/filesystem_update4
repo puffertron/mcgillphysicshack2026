@@ -1,2 +1,3 @@
-res://FluidDomain.tscn
-res://FluidDomain.gd
+res://node_3d.tscn
+res://keymapping.gd
+res://main.tscn
