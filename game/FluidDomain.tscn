@@ -1,6 +1,11 @@
 [gd_scene format=3 uid="uid://b41mmxjvy638s"]
 
 [ext_resource type="Script" uid="uid://cl42cxcm13j6j" path="res://FluidDomain.gd" id="1_ksg75"]
+[ext_resource type="PackedScene" uid="uid://dgtkesnbje1fg" path="res://fluid_point.tscn" id="2_6a2mv"]
 
 [node name="FluidDomain" type="Node3D" unique_id=1575522211]
 script = ExtResource("1_ksg75")
+fluid_point_scene = ExtResource("2_6a2mv")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=553730442]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
