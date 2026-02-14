@@ -2,12 +2,6 @@
 
 [ext_resource type="Script" uid="uid://bdnme4bixh4mk" path="res://keymapping.gd" id="1_ig7tw"]
 
-[sub_resource type="Environment" id="Environment_0xm2m"]
-
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_ig7tw"]
-
-[sub_resource type="Compositor" id="Compositor_1bvp3"]
-
 [node name="Main" type="Node3D" unique_id=221814679]
 
 [node name="MainCam" type="Camera3D" parent="." unique_id=471928645]
@@ -18,8 +12,3 @@ script = ExtResource("1_ig7tw")
 [node name="LowPressure" type="Node3D" parent="." unique_id=1888279700]
 
 [node name="HighPressure" type="Node3D" parent="." unique_id=435439682]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=54787409]
-environment = SubResource("Environment_0xm2m")
-camera_attributes = SubResource("CameraAttributesPractical_ig7tw")
-compositor = SubResource("Compositor_1bvp3")
