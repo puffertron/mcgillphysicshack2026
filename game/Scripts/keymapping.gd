@@ -6,8 +6,6 @@ extends Node3D
 
 signal highpres_changed(position)
 signal lowpres_changed(position)
-var can_emit: bool = true
-const COOLDOWN = .2
 
 var keymaps: Array[Array] = [
 	['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -30,7 +28,6 @@ func _ready() -> void:
 	current_state = state_array[index]
 
 func _input(event): # changing pressure
-	can_emit = true
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_SPACE:
 			if index == len(state_array) - 1:
@@ -47,21 +44,16 @@ func _input(event): # changing pressure
 				if !event.is_action_pressed(input):
 					pass
 				elif event.is_action_pressed(input):
-					#print(current_state)
 					x_pos = float(row.find(input)) / 10 * 10 - 4.5
-					#print(x_pos)
 					z_pos = float(keymaps.find(row)) / 10 * 5
-					#print(keymaps.find(row))
 					global_pos = Vector3(x_pos, 0, z_pos)
 					current_state.global_position = global_pos
-					if can_emit:
-						if current_state == HighPres:
-							highpres_changed.emit(global_pos)
-							print(highpres_changed)
-						else:
-							lowpres_changed.emit(global_pos)
-							print(lowpres_changed)
-						can_emit = false
+					if current_state == HighPres:
+						highpres_changed.emit(global_pos)
+						print(highpres_changed)
+					else:
+						lowpres_changed.emit(global_pos)
+						print(lowpres_changed)
 					#print(x_pos, z_pos)
 				else:
 					print("error with keymaps")
