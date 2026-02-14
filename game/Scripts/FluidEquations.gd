@@ -1,5 +1,5 @@
 extends Node
-class_name FluidSolver
+class_name FluidEquations
 
 
 const GRAVITY: float = 9.8
