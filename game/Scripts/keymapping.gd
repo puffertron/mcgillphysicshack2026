@@ -50,13 +50,12 @@ func _input(event): # changing pressure
 					current_state.global_position = global_pos
 					if current_state == HighPres:
 						highpres_changed.emit(global_pos)
-						print(highpres_changed)
 					else:
 						lowpres_changed.emit(global_pos)
-						print(lowpres_changed)
 					#print(x_pos, z_pos)
 				else:
 					print("error with keymaps")
+
 
 func _process(delta: float) -> void:
 	var cam_basis = MainCam.global_transform.basis
