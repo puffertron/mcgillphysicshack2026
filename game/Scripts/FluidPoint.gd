@@ -1,6 +1,8 @@
 class_name FluidPoint
 extends Node3D
 static var scene = load("res://fluid_point.tscn") 
+@onready var visualizer = $Visualizer
+
 
 var domain
 
@@ -20,5 +22,12 @@ func update(delta):
 	pass
 	
 
+
 	
+
+	
+	
+func process(delta):
+	visualizer.material.set_shader_parameter("pressure_vis", pressure)
+	visualizer.material.set_shader_parameter("temperature_vis", temperature)
 	

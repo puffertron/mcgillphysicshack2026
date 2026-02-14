@@ -1,11 +1,14 @@
 shader_type spatial;
 
+uniform float pressure_vis;
+uniform float temperature_vis;
+
 void vertex() {
 	// Called for every vertex the material is visible on.
 }
 
 void fragment() {
-	// Called for every pixel the material is visible on.
+	ALBEDO = vec3(pressure_vis/10.0, temperature_vis/100.0, 0);
 }
 
 //void light() {

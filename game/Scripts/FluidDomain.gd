@@ -51,7 +51,11 @@ func get_orthogonal_neighbors(point: FluidPoint) -> Array[FluidPoint]:
 		
 	return neighbors
 
-func get_point_at_pos(pos: Vector3i) -> FluidPoint:
+func set_pressure(point: FluidPoint, pos: Vector3i):
+	pass
+
+func get_point_at_pos(pos: Vector3) -> FluidPoint:
+	var rounded_pos = Vector3i(round(pos.x), round(pos.y), round(pos.z))
 	if pos.x >= 0 and pos.y >= 0 and pos.z >= 0 and pos.x < field_size.x and pos.y < field_size.y  and pos.z < field_size.z :
 		return fluid_points[pos.x][pos.y][pos.z]	
 	else:

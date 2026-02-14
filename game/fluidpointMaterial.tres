@@ -5,3 +5,5 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_1xut2")
+shader_parameter/pressure_vis = 10.0
+shader_parameter/temperature_vis = 50.0
