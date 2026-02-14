@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b41mmxjvy638s"]
+
+[ext_resource type="Script" uid="uid://cl42cxcm13j6j" path="res://FluidDomain.gd" id="1_ksg75"]
+
+[node name="FluidDomain" type="Node3D" unique_id=1575522211]
+script = ExtResource("1_ksg75")
