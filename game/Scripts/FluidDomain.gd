@@ -37,7 +37,7 @@ func ortho_neighbor_grid() -> Array[Vector3i]:
 	return neighbors
 				
 ## returns an array of neighbors from a FluidPoint in along the X, Y and Z axes (No diagonals).
-##
+## array format is -X, +X, -Y, +Y, -Z, +Z
 ## more docs
 func get_orthogonal_neighbors(point: FluidPoint) -> Array[FluidPoint]:
 	var check_pos: Vector3i = point.grid_position
