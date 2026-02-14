@@ -1,3 +1,7 @@
 [gd_scene format=3 uid="uid://ci3o33ipbdx15"]
 
+[ext_resource type="PackedScene" uid="uid://b41mmxjvy638s" path="res://Nodes/FluidDomain.tscn" id="1_yh5la"]
+
 [node name="Main" type="Node3D" unique_id=1450472223]
+
+[node name="FluidDomain" parent="." unique_id=1575522211 instance=ExtResource("1_yh5la")]
