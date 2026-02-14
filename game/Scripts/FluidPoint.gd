@@ -51,7 +51,7 @@ func update(delta):
 		difference_pressures.append(difference_pressure)
 		
 		# Calc flow between each neighbor
-		flow = difference_pressure*delta*flow_per_pressure
+		var flow = difference_pressure*delta*flow_per_pressure
 		flows.append(flow)
 		
 		# Sum total flow to know change for next state
