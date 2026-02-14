@@ -2,10 +2,13 @@ class_name FluidPoint
 extends Node3D
 static var scene = load("res://fluid_point.tscn") 
 @onready var visualizer = $Visualizer
+@onready var highlight = $Highlight
+
 
 
 var domain
 
+var highlighted : bool = false
 var grid_position :Vector3i
 var pressure : float
 var density  : float

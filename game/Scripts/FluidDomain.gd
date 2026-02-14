@@ -3,20 +3,18 @@ class_name FluidDomain
 
 @export var fluid_point_scene: PackedScene
 var fluid_points
-@export var field_size: Vector3i = Vector3i(10,10,10)
+@export var field_size: Vector3i = Vector3i(10,10,10) 
+@export var cell_size: float = 1.0
 
+#creates a new field based on field size on ready
 func _ready():
-	generate_field(field_size, 1)
-	
-	#print("default neighbor grid")
-	#print(ortho_neighbor_grid())
-	print(get_point_at_pos(Vector3i(0,0,0)))
-	print(get_orthogonal_neighbors(get_point_at_pos(Vector3i(0,0,0))))
+	generate_field(field_size,cell_size)
 
 	
 func _process(delta):
 	pass
-	
+
+## Generates a standard template grid for neighbors along all orthogonal coordinates. (Neighbor grid without diagonals)
 func ortho_neighbor_grid() -> Array[Vector3i]:
 	var neighbors: Array[Vector3i] = []
 	
@@ -39,7 +37,6 @@ func ortho_neighbor_grid() -> Array[Vector3i]:
 				
 ## returns an array of neighbors from a FluidPoint in along the X, Y and Z axes (No diagonals).
 ## array format is -X, +X, -Y, +Y, -Z, +Z
-## more docs
 func get_orthogonal_neighbors(point: FluidPoint) -> Array[FluidPoint]:
 	var check_pos: Vector3i = point.grid_position
 	var neighbor_pos = ortho_neighbor_grid()
@@ -51,9 +48,16 @@ func get_orthogonal_neighbors(point: FluidPoint) -> Array[FluidPoint]:
 		
 	return neighbors
 
-func set_pressure(point: FluidPoint, pos: Vector3i):
+## Sets pressure of a cell
+func set_pressure(point: FluidPoint, pressure: float):
 	pass
 
+func global_pos_to_grid_pos(global_pos: Vector3) -> Vector3i:
+	var localpos = to_local(global_pos)
+	var grid_pos = Vector3i(round(localpos.x),round(localpos.y),round(localpos.z))
+	return grid_pos
+
+## Given a grid coordinate, returns the fluid simulation cell at that point
 func get_point_at_pos(pos: Vector3) -> FluidPoint:
 	var rounded_pos = Vector3i(round(pos.x), round(pos.y), round(pos.z))
 	if pos.x >= 0 and pos.y >= 0 and pos.z >= 0 and pos.x < field_size.x and pos.y < field_size.y  and pos.z < field_size.z :
@@ -61,14 +65,9 @@ func get_point_at_pos(pos: Vector3) -> FluidPoint:
 	else:
 		return null
 
+## Creates a field of points based on size and cell size
 func generate_field(size: Vector3i, cell_size: float):
 	#fluid_points = size.z*[size.y*[size.x*[null]]]
-	var testarray = [
-		[[]],
-		[[]],
-		[[]]
-	]
-	
 	var z_array: Array[FluidPoint] = []
 	z_array.resize(size.z)
 	
