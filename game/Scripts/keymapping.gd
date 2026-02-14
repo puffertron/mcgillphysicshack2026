@@ -4,8 +4,8 @@ extends Node3D
 @onready var HighPres = $HighPressure
 @onready var LowPres = $LowPressure
 
-signal highpres_changed(position)
-signal lowpres_changed(position)
+signal highpres_changed()
+signal lowpres_changed()
 
 var keymaps: Array[Array] = [
 	['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -26,6 +26,8 @@ func _ready() -> void:
 	state_array = [HighPres, LowPres]
 	index = 0
 	current_state = state_array[index]
+	highpres_changed.connect(_on_highpres_received)
+	lowpres_changed.connect(_on_lowpres_received)
 
 func _input(event): # changing pressure
 	if event is InputEventKey:
@@ -49,13 +51,19 @@ func _input(event): # changing pressure
 					global_pos = Vector3(x_pos, 0, z_pos)
 					current_state.global_position = global_pos
 					if current_state == HighPres:
-						highpres_changed.emit(global_pos)
+						highpres_changed.emit()
 					else:
-						lowpres_changed.emit(global_pos)
+						lowpres_changed.emit()
 					#print(x_pos, z_pos)
 				else:
 					print("error with keymaps")
+	return global_pos
+					
+func _on_highpres_received():
+	print("high_pres", global_pos)
 
+func _on_lowpres_received():
+	print("low_pres", global_pos)
 
 func _process(delta: float) -> void:
 	var cam_basis = MainCam.global_transform.basis
