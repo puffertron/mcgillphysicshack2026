@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://crhs40hhtuw0p"]
+
+[node name="Dandelions" type="Node3D" unique_id=844262600]
+
+[node name="Seed1" type="Node3D" parent="." unique_id=1160771686]
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Seed1" unique_id=933728730]
