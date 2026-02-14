@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dyt3muowxfen5"]
+
+[ext_resource type="Script" uid="uid://bdnme4bixh4mk" path="res://keymapping.gd" id="1_ig7tw"]
+
+[node name="Main" type="Node3D" unique_id=221814679]
+
+[node name="MainCam" type="Camera3D" parent="." unique_id=471928645]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+fov = 90.0
+script = ExtResource("1_ig7tw")
+
+[node name="LowPressure" type="Node3D" parent="." unique_id=1888279700]
+
+[node name="HighPressure" type="Node3D" parent="." unique_id=435439682]
