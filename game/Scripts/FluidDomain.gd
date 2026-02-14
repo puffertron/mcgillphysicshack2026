@@ -2,17 +2,37 @@ extends Node3D
 class_name FluidDomain
 
 @export var fluid_point_scene: PackedScene
-var fluid_points
+var fluid_points:Array[Array] #First element chooses x pos, second: y, third: z
 @export var field_size: Vector3i = Vector3i(10,10,10) 
 @export var cell_size: float = 1.0
+@onready var field_controller:Node3D = get_parent().get_node("FieldController")
+
+const PRESSURE_HOT = 10 #pressure that gets set to hot control points
+const PRESSURE_COLD = 0 #pressure that gets set to cold control points
 
 #creates a new field based on field size on ready
 func _ready():
 	generate_field(field_size,cell_size)
 
-	
 func _process(delta):
-	pass
+	# Set points at control_points to be at specific value
+	for ctrl_point_hot in field_controller.ctrl_points_hot:
+		get_point_at_pos(ctrl_point_hot).pressure = PRESSURE_HOT
+	for ctrl_point_cold in field_controller.ctrl_points_cold:
+		get_point_at_pos(ctrl_point_cold).pressure = PRESSURE_COLD
+	
+	
+	for xArray in fluid_points:
+		for yArray in xArray:
+			for fluid_point:FluidPoint in yArray:
+				#Runs once per fluid_point
+				fluid_point.update(delta)
+				
+	for xArray in fluid_points:
+		for yArray in xArray:
+			for fluid_point:FluidPoint in yArray:
+				#Runs once per fluid_point
+				fluid_point.apply()
 
 ## Generates a standard template grid for neighbors along all orthogonal coordinates. (Neighbor grid without diagonals)
 func ortho_neighbor_grid() -> Array[Vector3i]:

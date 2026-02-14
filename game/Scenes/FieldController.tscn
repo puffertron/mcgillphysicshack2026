@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dyt3muowxfen5"]
+
+[ext_resource type="Script" uid="uid://bdnme4bixh4mk" path="res://Scripts/FluidController.gd" id="1_7c7kn"]
+
+[node name="FieldController" type="Node3D" unique_id=221814679]
+script = ExtResource("1_7c7kn")

@@ -1,8 +1,5 @@
 extends Node3D
 
-@onready var MainCam = $MainCam
-#@onready var HighPres = $HighPressure
-#@onready var LowPres = $LowPressure
 
 signal highpres_changed(position)
 signal lowpres_changed(position)
@@ -13,8 +10,8 @@ var keymaps: Array[Array] = [
 	['Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', 'SLASH']
 	]
 
-var ctrl_points_hot: Array[Vector3]
-var ctrl_points_cold: Array[Vector3]
+var ctrl_points_hot: Array[Vector3] = []
+var ctrl_points_cold: Array[Vector3] = []
 	
 var state_array: Array
 var index
@@ -77,5 +74,5 @@ func _on_lowpres_received(global_pos):
 	print(ctrl_points_cold)
 
 func _process(delta: float) -> void:
-	var cam_basis = MainCam.global_transform.basis
+	pass
 	
