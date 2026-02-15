@@ -7,6 +7,8 @@ var fluid_points:Array[Array] #First element chooses x pos, second: y, third: z
 @export var cell_size: float = 1.0
 @onready var field_controller:Node3D = get_parent().get_node("FieldController")
 
+var sim_params 
+
 @onready var points_anchor = $PointsAnchor
 
 const INOUTLET_MAG = 1 #Amount of flow through inlet or outlet
@@ -16,7 +18,7 @@ func _ready():
 	generate_field(field_size,cell_size)
 	center_domain()
 	
-	var sim_params = generateFieldFast(field_size,cell_size)
+	sim_params = generateFieldFast(field_size,cell_size)
 	print(nd_diffuse(1, sim_params[0], sim_params[1], 0 , 0))
 
 func _process(delta):
@@ -156,46 +158,67 @@ func generateFieldFast(size: Vector3i, cell_size: float):
 	var density_field = density_field_x.duplicate_deep()	
 	var density_field_delta = density_field.duplicate_deep()
 	
+	velocity_field = nd.array(velocity_field)
+	velocity_field_delta = nd.array(velocity_field_delta)
+	density_field = nd.array(density_field)
+	density_field_delta = nd.array(density_field_delta)
+	
 	return [velocity_field, velocity_field_delta, density_field, density_field_delta]
 	
+	
+	
+func simulate_da_thing(b, value:Array, delta_value, diffusion, delta):
+	nd_diffuse(b, value, delta_value, diffusion, delta)
+	
+	
 
-func nd_diffuse(bb, value:Array, delta_value, diffusion, delta):
+func nd_diffuse(b, value:Array, delta_value, diffusion, delta):
 	var a = delta * diffusion * field_size.x * field_size.z
 	
 	var v = nd.array(value)
 	var v0 = nd.array(delta_value)
 	
-	#for k in range(20):
-	#print(v.get(nd.range(1,-1), nd.range(1,-1)))
-	#v.get(nd.range(1,-1), nd.range(1,-1)) = (
-		#v0.get(nd.range(1,-1), nd.range(1,-1))
-		#+ a * v.get(nd.range(0,-2), nd.range(1,-1))
-		#
-	#)
-	
-
-func diffuse(b, value:Array, delta_value, diffusion, delta):
-	var a = delta * diffusion * field_size.x * field_size.z
-	
-	var diffusion_steps = 20
-	var sliced_x = value.slice(1, -1)
-	var sliced_xd = delta_value.slice(1, -1)
-	var sliced_z = []
-	var sliced_zd = []
-	for i in range(field_size.x):	
-		var s1 = sliced_x[i].slice(1,-1)
-		sliced_z.append(s1)
-		var s2 = sliced_xd[i].slice(1,-1)
-		sliced_zd.append(s2)
+	for k in range(20):
+		#value to be set,       indexes
+		v.set(
+			v0.get(nd.range(1,-1), nd.range(1,-1)) + a * 
+			v.get(nd.range(0,-2), nd.range(1,-1)) + v.get(nd.range(2, &":"), nd.range(1,-1)) +
+			v.get(nd.range(1,-1), nd.range(0,-2)) + v.get(nd.range(1,-1), nd.range(2, &":")) 
+			/ (1 + 4 *  a),
+			nd.range(1,-1), nd.range(1,-1) )
 		
-		var shifted_up 
+		self.set_boundary(b, v)
+
+func set_boundary(b, x):
+	if b ==1: #horizontal (x)
+		#set  | value to be set         | indexes to set at
+		x.set(-x.get(1, nd.range(1, -1)), 0, nd.range(1, -1))
+		x.set(-x.get(-2, nd.range(1, -1)),  -1, nd.range(1, -1))
+	else:
+		#set  | value to be set         | indexes to set at
+		x.set(x.get(1, nd.range(1, -1)), 0, nd.range(1, -1))
+		x.set(x.get(-2, nd.range(1, -1)), -1, nd.range(1, -1))
+	if b == 2:
+		#set  | value to be set         | indexes to set at
+		x.set(-x.get(nd.range(1, -1), 1), nd.range(1, -1), 0)
+		x.set(-x.get(nd.range(1, -1), -2), nd.range(1, -1), -1)
+	else:
+		#set  | value to be set         | indexes to set at
+		x.set(x.get(nd.range(1, -1), 1), nd.range(1, -1), 0)
+		x.set(x.get(nd.range(1, -1), -2), nd.range(1, -1), -1)
 	
+	x.set( 0.5 * x.get(1,0) + x.get(0, 1), nd.range(0,0))
+	x.set( 0.5 * x.get(1,-1) + x.get(0, -2), nd.range(0,-1))
+	x.set( 0.5 * x.get(-2,0) + x.get(-1, 1), nd.range(-1,0))
+	x.set( 0.5 * x.get(-2,-1) + x.get(-1, -2), nd.range(-1,-1))
+	
+
+
+
+
+
+
 		
 	
-	
-
-	for k in range(diffusion_steps):
-		pass
-
 
 	
