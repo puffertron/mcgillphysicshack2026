@@ -8,7 +8,7 @@ void vertex() {
 }
 
 void fragment() {
-	ALBEDO = vec3(pressure_vis/10.0, temperature_vis/100.0, 0);
+	ALBEDO = vec3(pressure_vis/10.0, 0, 0);
 }
 
 //void light() {
