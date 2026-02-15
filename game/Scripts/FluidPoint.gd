@@ -72,10 +72,11 @@ func apply():
 
 	
 
-	
+func round_to_dec(num, digit):
+	return round(num * pow(10.0, digit)) / pow(10.0, digit)
 	
 func _process(delta):
-	label.text = str(pressure)
+	label.text = str(round_to_dec(pressure, 3))
 	visualizer.material.set_shader_parameter("pressure_vis", pressure)
 	visualizer.material.set_shader_parameter("temperature_vis", temperature)
 	#counter += delta
