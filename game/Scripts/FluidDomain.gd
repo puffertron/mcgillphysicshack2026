@@ -3,14 +3,13 @@ class_name FluidDomain
 
 @export var fluid_point_scene: PackedScene
 var fluid_points:Array[Array] #First element chooses x pos, second: y, third: z
-@export var field_size: Vector3i = Vector3i(10,10,10) 
+@export var field_size: Vector3i = Vector3i(10,1,10) 
 @export var cell_size: float = 1.0
 @onready var field_controller:Node3D = get_parent().get_node("FieldController")
 
 @onready var points_anchor = $PointsAnchor
 
-const PRESSURE_HOT = 10 #pressure that gets set to hot control points
-const PRESSURE_COLD = 0 #pressure that gets set to cold control points
+const INOUTLET_MAG = 1 #Amount of flow through inlet or outlet
 
 #creates a new field based on field size on ready
 func _ready():
@@ -19,12 +18,16 @@ func _ready():
 
 func _process(delta):
 	# Set points at control_points to be at specific value
-	for ctrl_point_hot in field_controller.ctrl_points_hot:
-		if get_point_at_pos(ctrl_point_hot):
-			get_point_at_pos(ctrl_point_hot).pressure = PRESSURE_HOT
-	for ctrl_point_cold in field_controller.ctrl_points_cold:
-		if get_point_at_pos(ctrl_point_cold):
-			get_point_at_pos(ctrl_point_cold).pressure = PRESSURE_COLD
+	for ctrl_point_in in field_controller.ctrl_points_in:
+		var ctrl_point_in_pos = ctrl_point_in[0]
+		var ctrl_point_in_dir = ctrl_point_in[1]
+		if get_point_at_pos(ctrl_point_in_pos):
+			get_point_at_pos(ctrl_point_in_pos).velocity = ctrl_point_in_dir*INOUTLET_MAG
+	for ctrl_point_out in field_controller.ctrl_points_out:
+		var ctrl_point_out_pos = ctrl_point_out[0]
+		var ctrl_point_out_dir = ctrl_point_out[1]
+		if get_point_at_pos(ctrl_point_out_pos):
+			get_point_at_pos(ctrl_point_out_pos).velocity = ctrl_point_out_dir*INOUTLET_MAG
 	
 	
 	for xArray in fluid_points:

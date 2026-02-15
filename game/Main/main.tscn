@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://ci3o33ipbdx15"]
 
 [ext_resource type="PackedScene" uid="uid://b41mmxjvy638s" path="res://Nodes/FluidDomain.tscn" id="1_yh5la"]
-[ext_resource type="PackedScene" uid="uid://d2dxo3ta4h6uq" path="res://Scenes/FieldController.tscn" id="2_2w1kt"]
+[ext_resource type="PackedScene" path="res://Scenes/FieldController.tscn" id="2_2w1kt"]
+[ext_resource type="PackedScene" uid="uid://crhs40hhtuw0p" path="res://Scenes/dandelions.tscn" id="3_qvhan"]
 
 [node name="Main" type="Node3D" unique_id=1450472223]
 
@@ -12,3 +13,6 @@ domain = NodePath("../FluidDomain")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=954726687]
 transform = Transform3D(1, 0, 0, 0, 0.30227003, 0.95322233, 0, -0.95322233, 0.30227003, 0, 3.8831463, 0)
+
+[node name="Dandelions" parent="." unique_id=844262600 node_paths=PackedStringArray("fluid_domain") instance=ExtResource("3_qvhan")]
+fluid_domain = NodePath("../FluidDomain")

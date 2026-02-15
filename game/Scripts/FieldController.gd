@@ -1,8 +1,8 @@
 extends Node3D
 
 
-signal inlet_changed(position)
-signal outlet_changed(position)
+signal inlet_changed(position, direction)
+signal outlet_changed(position, direction)
 
 @export var domain: FluidDomain
 
@@ -18,9 +18,9 @@ var keymaps: Array[Array] = [
 	['X', 'C', 'V', 'B', 'N', 'M', ',', '.']
 ]
 
-var ctrl_points_in: Array[Vector3] = []
-var ctrl_points_out: Array[Vector3] = []
-var next_ctrl_point_in: Vector3# temporary space to store the inlet while waiting for outlet
+var ctrl_points_in: Array[Array] = [] # inner array holds vec3, vec3 (pos, dir)
+var ctrl_points_out: Array[Array] = [] # inner array holds vec3, vec3 (pos, dir)
+var next_ctrl_point_in: Array[Vector3] # temporary space to store the inlet while waiting for outlet
 	
 var state_array: Array
 var index
@@ -29,6 +29,7 @@ var global_pos
 
 var x_pos: float = 0.0
 var z_pos: float = 0.0
+var dir: Vector3
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -62,23 +63,27 @@ func _input(event): # changing pressure
 					pass
 				elif event.is_action_pressed(input):
 					var case = float(keymaps.find(row)) #figure out 0,1,2 or 3 to know what wall this is
-					if case == 0 or case == 1:
+					if case == 0 or case == 1: # L and R
 						# First set x component to 0 or 10 based on left or right wall
 						if case == 0:
 							x_pos = 0
+							dir = Vector3(-1, 0, 0)
 						else:
 							x_pos = 10
+							dir = Vector3(1, 0, 0)
 #						# Second set z component based on key position
 						var index = float(row.find(input))
 						z_pos = (index + 1) * 2.5
 
-					if case == 2 or case == 3:
+					if case == 2 or case == 3: # Up and Down
 						
 						# First set z component to 0 or 10 based on top or bottom wall
 						if case == 2:
 							z_pos = 0
+							dir = Vector3(0, 0, -1)
 						else:
 							z_pos = 10
+							dir = Vector3(0, 0, 1)
 						# Second set x component based on key position
 						var index = float(row.find(input))
 						x_pos = (index + 1) * (10 / 9)
@@ -91,22 +96,23 @@ func _input(event): # changing pressure
 					global_pos = domain_pos
 					#current_state.global_position = global_pos
 					if current_state == 0:
-						inlet_changed.emit(global_pos)
+						dir = -dir
+						inlet_changed.emit(global_pos, dir)
 					elif current_state == 1:
-						outlet_changed.emit(global_pos)
+						outlet_changed.emit(global_pos, dir)
 					#print(x_pos, z_pos)
 				else:
 					print("error with keymaps")
 	return global_pos
 					
-func _on_inlet_created(global_pos):
-	next_ctrl_point_in = global_pos
+func _on_inlet_created(global_pos, dir):
+	next_ctrl_point_in = [global_pos,dir]
 	current_state = 1
 	print(ctrl_points_in)
 
-func _on_outlet_created(global_pos):
+func _on_outlet_created(global_pos, dir):
 	ctrl_points_in.append(next_ctrl_point_in)
-	ctrl_points_out.append(global_pos)
+	ctrl_points_out.append([global_pos, dir])
 	current_state = 0
 	print(ctrl_points_out)
 
