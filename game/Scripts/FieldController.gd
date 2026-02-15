@@ -64,29 +64,29 @@ func _input(event): # changing pressure
 				elif event.is_action_pressed(input):
 					var case = float(keymaps.find(row)) #figure out 0,1,2 or 3 to know what wall this is
 					if case == 0 or case == 1: # L and R
-						# First set x component to 0 or 10 based on left or right wall
+						# First set x component to 0 or 1 based on left or right wall
 						if case == 0:
 							x_pos = 0
 							dir = Vector3(-1, 0, 0)
 						else:
-							x_pos = 10
+							x_pos = 1
 							dir = Vector3(1, 0, 0)
 #						# Second set z component based on key position
 						var index = float(row.find(input))
-						z_pos = (index + 1) * 2.5
+						z_pos = (index + 1) * 1/4
 
 					if case == 2 or case == 3: # Up and Down
 						
-						# First set z component to 0 or 10 based on top or bottom wall
+						# First set z component to 0 or 1 based on top or bottom wall
 						if case == 2:
 							z_pos = 0
 							dir = Vector3(0, 0, -1)
 						else:
-							z_pos = 10
+							z_pos = 1
 							dir = Vector3(0, 0, 1)
 						# Second set x component based on key position
 						var index = float(row.find(input))
-						x_pos = (index + 1) * (10 / 9)
+						x_pos = (index + 1) * (1/9)
 						
 					# Now know x and z coord of new inlet or outlet
 					

@@ -86,6 +86,7 @@ func get_orthogonal_neighbors(point: FluidPoint) -> Array[FluidPoint]:
 func set_pressure(point: FluidPoint, pressure: float):
 	point.pressure = pressure
 
+## input 0 to 1
 func fraction_to_grid_pos(pos: Vector3):
 	var grid_pos = Vector3i(round(pos.x * field_size.x),round(pos.y * field_size.y),round(pos.z * field_size.z))
 	return grid_pos
