@@ -55,7 +55,7 @@ func ciaranPropogation(domain, pressure, point, delta):
 	return [netFlow, netVel]
 
 func nvidaSolver(point, domain, velocity, pressure, delta):
-	
+	pass
 	
 	
 
