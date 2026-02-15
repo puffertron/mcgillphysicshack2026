@@ -30,7 +30,7 @@ func ciaranPropogation(domain, pressure, point, delta):
 	# Get neighbors
 	var neighbors: Array[FluidPoint] = domain.get_orthogonal_neighbors(point)
 	
-	const flow_per_pressure = 0.5 #arbitrary constant representing how quick flow happens per change in pressure
+	const flow_per_pressure = 10 #arbitrary constant representing how quick flow happens per change in pressure
 	# Calc pressure difference between each neighbor
 	var difference_pressure
 	var difference_pressures = []

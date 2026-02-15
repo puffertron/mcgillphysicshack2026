@@ -9,7 +9,9 @@ var fluid_points:Array[Array] #First element chooses x pos, second: y, third: z
 
 @onready var points_anchor = $PointsAnchor
 
-const INOUTLET_MAG = 1 #Amount of flow through inlet or outlet
+#const INOUTLET_MAG = 1 #Amount of flow through inlet or outlet
+const INLET_PRES = 10 #TEMP
+const OUTLET_PRES = 1 #TEMP
 
 var sim_params:Array
 
@@ -27,13 +29,15 @@ func _process(delta):
 		var ctrl_point_in_pos = ctrl_point_in[0]
 		var ctrl_point_in_dir = ctrl_point_in[1]
 		if get_point_at_pos(ctrl_point_in_pos):
-			get_point_at_pos(ctrl_point_in_pos).pressure = ctrl_point_in_dir.length()*INOUTLET_MAG
+			#NOTE: Changed to just set pressure, original intent was to set velocity
+			get_point_at_pos(ctrl_point_in_pos).pressure = INLET_PRES
 			get_point_at_pos(ctrl_point_in_pos).highlight_on()
 	for ctrl_point_out in field_controller.ctrl_points_out:
 		var ctrl_point_out_pos = ctrl_point_out[0]
 		var ctrl_point_out_dir = ctrl_point_out[1]
 		if get_point_at_pos(ctrl_point_out_pos):
-			get_point_at_pos(ctrl_point_out_pos).pressure = ctrl_point_out_dir.length()*INOUTLET_MAG
+			#NOTE: Changed to just set pressure, original intent was to set velocity
+			get_point_at_pos(ctrl_point_out_pos).pressure = OUTLET_PRES
 	
 	#TODO - Kidane we are adding the fluidPoints updating stuff here
 	
