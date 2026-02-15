@@ -19,6 +19,7 @@ var density  : float
 var temperature  : float
 var velocity : Vector3
 var velocity_dif : Vector3
+var velocity_next : Vector3
 var acceleration :  Vector3
 var viscosity : float
 
