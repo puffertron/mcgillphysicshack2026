@@ -17,7 +17,6 @@ var sim_params:Array
 func _ready():
 	generate_field(field_size,cell_size)
 	center_domain()
-	print(generateFieldFast(field_size,cell_size))
 	sim_params = generateFieldFast(field_size,cell_size)
 	print(nd_diffuse(1, sim_params[0], sim_params[1], 0 , 0))
 
@@ -26,33 +25,42 @@ func _process(delta):
 	for ctrl_point_in in field_controller.ctrl_points_in:
 		var ctrl_point_in_pos = ctrl_point_in[0]
 		var ctrl_point_in_dir = ctrl_point_in[1]
-		if get_point_at_pos(ctrl_point_in_pos):
-			get_point_at_pos(ctrl_point_in_pos).pressure = ctrl_point_in_dir.length()*INOUTLET_MAG
-			get_point_at_pos(ctrl_point_in_pos).highlight_on()
+		sim_params[0][ctrl_point_in_pos.x][ctrl_point_in_pos.y][ctrl_point_in_pos.z].velocity = ctrl_point_in_dir*INOUTLET_MAG
+		
+		#OLD WAY when points were in charge of their own state
+		#if get_point_at_pos(ctrl_point_in_pos):
+			#get_point_at_pos(ctrl_point_in_pos).velocity = ctrl_point_in_dir*INOUTLET_MAG
+			#get_point_at_pos(ctrl_point_in_pos).highlight_on()
 	for ctrl_point_out in field_controller.ctrl_points_out:
 		var ctrl_point_out_pos = ctrl_point_out[0]
 		var ctrl_point_out_dir = ctrl_point_out[1]
-		if get_point_at_pos(ctrl_point_out_pos):
-			get_point_at_pos(ctrl_point_out_pos).pressure = ctrl_point_out_dir.length()*INOUTLET_MAG
+		sim_params[0][ctrl_point_out_pos.x][ctrl_point_out_pos.y][ctrl_point_out_pos.z].velocity = ctrl_point_out_dir*INOUTLET_MAG
+		
+		#OLD WAY when points were in charge of their own state
+		#if get_point_at_pos(ctrl_point_out_pos):
+			#get_point_at_pos(ctrl_point_out_pos).velocity = ctrl_point_out_dir*INOUTLET_MAG
 	
-	#TODO - Kidane we are adding the fluidPoints updating stuff here
-	
-	#Calculate the next steps using sim_params
+	#KIDANE!!!!!!! we are adding the fluidPoints updating stuff here
+	#TODO - Calculate the next steps using sim_params
 	
 	#Tell the fluid_points to update
+	update_all_points()
 	
 	
-	for xArray in fluid_points:
-		for yArray in xArray:
-			for fluid_point:FluidPoint in yArray:
-				#Runs once per fluid_point
-				fluid_point.update(delta)
-				
-	for xArray in fluid_points:
-		for yArray in xArray:
-			for fluid_point:FluidPoint in yArray:
-				#Runs once per fluid_point
-				fluid_point.apply()
+	
+	
+	#OLD WAY when points were in charge of updating their own state
+	#for xArray in fluid_points:
+		#for yArray in xArray:
+			#for fluid_point:FluidPoint in yArray:
+				##Runs once per fluid_point
+				#fluid_point.update(delta)
+				#
+	#for xArray in fluid_points:
+		#for yArray in xArray:
+			#for fluid_point:FluidPoint in yArray:
+				##Runs once per fluid_point
+				#fluid_point.apply()
 
 ## This gets called every loop to update the fluidPoints with simParams
 func update_all_points():
