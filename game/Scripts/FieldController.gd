@@ -20,6 +20,7 @@ var keymaps: Array[Array] = [
 
 var ctrl_points_in: Array[Vector3] = []
 var ctrl_points_out: Array[Vector3] = []
+var next_ctrl_point_in: Vector3# temporary space to store the inlet while waiting for outlet
 	
 var state_array: Array
 var index
@@ -63,11 +64,27 @@ func _input(event): # changing pressure
 					var case = float(keymaps.find(row)) #figure out 0,1,2 or 3 to know what wall this is
 					if case == 0 or case == 1:
 						# First set x component to 0 or 10 based on left or right wall
+						if case == 0:
+							x_pos = 0
+						else:
+							x_pos = 10
+#						# Second set z component based on key position
+						var index = float(row.find(input))
+						z_pos = (index + 1) * 2.5
+
 					if case == 2 or case == 3:
 						
-						pass
-					x_pos = float(row.find(input)) / 10
-					z_pos = float(keymaps.find(row)) / 3
+						# First set z component to 0 or 10 based on top or bottom wall
+						if case == 2:
+							z_pos = 0
+						else:
+							z_pos = 10
+						# Second set x component based on key position
+						var index = float(row.find(input))
+						x_pos = (index + 1) * (10 / 9)
+						
+					# Now know x and z coord of new inlet or outlet
+					
 					var relative_ctrl_pos = Vector3(x_pos,0, z_pos)
 					var domain_pos = domain.fraction_to_grid_pos(relative_ctrl_pos)
 					#global_pos = Vector3(x_pos, 0, z_pos)
@@ -83,11 +100,14 @@ func _input(event): # changing pressure
 	return global_pos
 					
 func _on_inlet_created(global_pos):
-	ctrl_points_in.append(global_pos)
+	next_ctrl_point_in = global_pos
+	current_state = 1
 	print(ctrl_points_in)
 
 func _on_outlet_created(global_pos):
+	ctrl_points_in.append(next_ctrl_point_in)
 	ctrl_points_out.append(global_pos)
+	current_state = 0
 	print(ctrl_points_out)
 
 func _process(delta: float) -> void:

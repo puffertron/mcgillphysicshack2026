@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ci3o33ipbdx15"]
 
 [ext_resource type="PackedScene" uid="uid://b41mmxjvy638s" path="res://Nodes/FluidDomain.tscn" id="1_yh5la"]
-[ext_resource type="PackedScene" path="res://Scenes/FieldController.tscn" id="2_2w1kt"]
+[ext_resource type="PackedScene" uid="uid://d2dxo3ta4h6uq" path="res://Scenes/FieldController.tscn" id="2_2w1kt"]
 
 [node name="Main" type="Node3D" unique_id=1450472223]
 
