@@ -4,9 +4,17 @@
 [ext_resource type="PackedScene" uid="uid://b41mmxjvy638s" path="res://Nodes/FluidDomain.tscn" id="1_yh5la"]
 [ext_resource type="PackedScene" uid="uid://d2dxo3ta4h6uq" path="res://Scenes/FieldController.tscn" id="2_2w1kt"]
 [ext_resource type="PackedScene" uid="uid://b0qg2i7fjjaa1" path="res://Main/dandelions.tscn" id="3_qvhan"]
+[ext_resource type="PackedScene" uid="uid://b5wpv3yys4mvn" path="res://Shaders/island.tscn" id="5_k3v36"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_k3v36"]
+
+[sub_resource type="Sky" id="Sky_liyct"]
+sky_material = SubResource("PanoramaSkyMaterial_k3v36")
 
 [sub_resource type="Environment" id="Environment_eunhr"]
+background_mode = 2
 background_energy_multiplier = 3.0
+sky = SubResource("Sky_liyct")
 
 [node name="Main" type="Node3D" unique_id=1450472223]
 script = ExtResource("1_eunhr")
@@ -28,3 +36,6 @@ transform = Transform3D(1, 0, 0, 0, 0.051133335, 0.99869186, 0, -0.99869186, 0.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1444178691]
 environment = SubResource("Environment_eunhr")
+
+[node name="Island" parent="." unique_id=1296470479 instance=ExtResource("5_k3v36")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.72552, 0)
