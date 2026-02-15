@@ -12,6 +12,11 @@ height = 0.2
 cone = true
 material = ExtResource("2_lum1e")
 
+[node name="Label3D" type="Label3D" parent="Visualizer" unique_id=1621782772]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20016819, 0, 0)
+billboard = 1
+text = "0.0"
+
 [node name="Highlight" type="CSGCombiner3D" parent="." unique_id=250155394]
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Highlight" unique_id=1137753590]

@@ -7,19 +7,24 @@ var fluid_points:Array[Array] #First element chooses x pos, second: y, third: z
 @export var cell_size: float = 1.0
 @onready var field_controller:Node3D = get_parent().get_node("FieldController")
 
+@onready var points_anchor = $PointsAnchor
+
 const PRESSURE_HOT = 10 #pressure that gets set to hot control points
 const PRESSURE_COLD = 0 #pressure that gets set to cold control points
 
 #creates a new field based on field size on ready
 func _ready():
 	generate_field(field_size,cell_size)
+	center_domain()
 
 func _process(delta):
 	# Set points at control_points to be at specific value
 	for ctrl_point_hot in field_controller.ctrl_points_hot:
-		get_point_at_pos(ctrl_point_hot).pressure = PRESSURE_HOT
+		if get_point_at_pos(ctrl_point_hot):
+			get_point_at_pos(ctrl_point_hot).pressure = PRESSURE_HOT
 	for ctrl_point_cold in field_controller.ctrl_points_cold:
-		get_point_at_pos(ctrl_point_cold).pressure = PRESSURE_COLD
+		if get_point_at_pos(ctrl_point_cold):
+			get_point_at_pos(ctrl_point_cold).pressure = PRESSURE_COLD
 	
 	
 	for xArray in fluid_points:
@@ -34,6 +39,12 @@ func _process(delta):
 				#Runs once per fluid_point
 				fluid_point.apply()
 
+
+func center_domain():
+	var actual_size = field_size * cell_size
+	points_anchor.translate(-actual_size/2)
+	
+	
 ## Generates a standard template grid for neighbors along all orthogonal coordinates. (Neighbor grid without diagonals)
 func ortho_neighbor_grid() -> Array[Vector3i]:
 	var neighbors: Array[Vector3i] = []
@@ -70,7 +81,11 @@ func get_orthogonal_neighbors(point: FluidPoint) -> Array[FluidPoint]:
 
 ## Sets pressure of a cell
 func set_pressure(point: FluidPoint, pressure: float):
-	pass
+	point.pressure = pressure
+
+func fraction_to_grid_pos(pos: Vector3):
+	var grid_pos = Vector3i(round(pos.x * field_size.x),round(pos.y * field_size.y),round(pos.z * field_size.z))
+	return grid_pos
 
 func global_pos_to_grid_pos(global_pos: Vector3) -> Vector3i:
 	var localpos = to_local(global_pos)
@@ -106,5 +121,5 @@ func generate_field(size: Vector3i, cell_size: float):
 				var new_point = fluid_point_scene.instantiate()
 				new_point.call("setup", Vector3i(x,y,z), Vector3(x,y,z)*cell_size)
 				new_point.domain = self
-				add_child(new_point)
+				points_anchor.add_child(new_point)
 				fluid_points[x][y][z] = new_point

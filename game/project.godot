@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="McGillPhysicsHack2026"
-run/main_scene="uid://d2llssgvgyee7"
+run/main_scene="uid://ci3o33ipbdx15"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 

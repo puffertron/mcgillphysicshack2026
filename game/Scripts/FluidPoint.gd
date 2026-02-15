@@ -3,7 +3,9 @@ extends Node3D
 static var scene = load("res://fluid_point.tscn") 
 @onready var visualizer = $Visualizer
 @onready var highlight = $Highlight
+@onready var label = $Visualizer/Label3D
 
+var counter = 0
 
 
 var domain: FluidDomain
@@ -53,12 +55,12 @@ func update(delta):
 			difference_pressure = pressure - incoming_pressure
 			difference_pressures.append(difference_pressure)
 		
-		# Calc flow between each neighbor
-		var flow = difference_pressure*delta*flow_per_pressure
-		flows.append(flow)
-		
-		# Sum total flow to know change for next state
-		netFlow += flow
+			# Calc flow between each neighbor
+			var flow = difference_pressure*delta*flow_per_pressure
+			flows.append(flow)
+			
+			# Sum total flow to know change for next state
+			netFlow += flow
 		
 	#Change in pressure for next state is based on total 'flow'
 	pressure_dif = netFlow 
@@ -72,7 +74,10 @@ func apply():
 
 	
 	
-func process(delta):
+func _process(delta):
+	label.text = str(pressure)
 	visualizer.material.set_shader_parameter("pressure_vis", pressure)
 	visualizer.material.set_shader_parameter("temperature_vis", temperature)
+	#counter += delta
+
 	

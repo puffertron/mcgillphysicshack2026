@@ -4,6 +4,8 @@ extends Node3D
 signal highpres_changed(position)
 signal lowpres_changed(position)
 
+@export var domain: FluidDomain
+
 var keymaps: Array[Array] = [
 	['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
 	['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'],
@@ -52,9 +54,12 @@ func _input(event): # changing pressure
 				if !event.is_action_pressed(input):
 					pass
 				elif event.is_action_pressed(input):
-					x_pos = float(row.find(input)) / 10 * 10 - 4.5
-					z_pos = float(keymaps.find(row)) / 10 * 5
-					global_pos = Vector3(x_pos, 0, z_pos)
+					x_pos = float(row.find(input)) / 10
+					z_pos = float(keymaps.find(row)) / 3
+					var relative_ctrl_pos = Vector3(x_pos,0, z_pos)
+					var domain_pos = domain.fraction_to_grid_pos(relative_ctrl_pos)
+					#global_pos = Vector3(x_pos, 0, z_pos)
+					global_pos = domain_pos
 					#current_state.global_position = global_pos
 					if current_state == 0:
 						highpres_changed.emit(global_pos)

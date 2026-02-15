@@ -6,8 +6,5 @@
 [node name="FluidDomain" type="Node3D" unique_id=1575522211]
 script = ExtResource("1_ksg75")
 fluid_point_scene = ExtResource("2_6a2mv")
-field_size = null
-cell_size = null
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=553730442]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
+[node name="PointsAnchor" type="Node3D" parent="." unique_id=1813916071]
