@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://ci3o33ipbdx15"]
 
+[ext_resource type="Script" uid="uid://e48ui48qaoja" path="res://Main/main.gd" id="1_eunhr"]
 [ext_resource type="PackedScene" uid="uid://b41mmxjvy638s" path="res://Nodes/FluidDomain.tscn" id="1_yh5la"]
-[ext_resource type="PackedScene" uid="uid://d2dxo3ta4h6uq" path="res://Scenes/FieldController.tscn" id="2_2w1kt"]
-[ext_resource type="PackedScene" uid="uid://crhs40hhtuw0p" path="res://Scenes/dandelions.tscn" id="3_qvhan"]
+[ext_resource type="PackedScene" path="res://Scenes/FieldController.tscn" id="2_2w1kt"]
+[ext_resource type="PackedScene" uid="uid://b0qg2i7fjjaa1" path="res://Main/dandelions.tscn" id="3_qvhan"]
 
 [node name="Main" type="Node3D" unique_id=1450472223]
+script = ExtResource("1_eunhr")
 
 [node name="FluidDomain" parent="." unique_id=1575522211 instance=ExtResource("1_yh5la")]
 
@@ -15,4 +17,5 @@ domain = NodePath("../FluidDomain")
 transform = Transform3D(1, 0, 0, 0, 0.30227003, 0.95322233, 0, -0.95322233, 0.30227003, 0, 6.8232174, 2.7921867)
 
 [node name="Dandelions" parent="." unique_id=844262600 node_paths=PackedStringArray("fluid_domain") instance=ExtResource("3_qvhan")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 fluid_domain = NodePath("../FluidDomain")
