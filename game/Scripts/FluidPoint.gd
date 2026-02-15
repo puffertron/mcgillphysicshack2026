@@ -15,6 +15,7 @@ var pressure_dif: float #Amount of pressure to change next frame
 var density  : float
 var temperature  : float
 var velocity : Vector3
+var velocity_next : Vector3
 var acceleration :  Vector3
 var viscosity : float
 
@@ -53,12 +54,17 @@ func update(delta):
 			difference_pressure = pressure - incoming_pressure
 			difference_pressures.append(difference_pressure)
 		
-		# Calc flow between each neighbor
-		var flow = difference_pressure*delta*flow_per_pressure
-		flows.append(flow)
-		
-		# Sum total flow to know change for next state
-		netFlow += flow
+			# Calc flow between each neighbor
+			var flow = difference_pressure*delta*flow_per_pressure
+			flows.append(flow)
+			
+			# Sum total flow to know change for next state
+			netFlow += flow
+			var v_x = (difference_pressures[0] + difference_pressures[1]) / 2
+			var v_y = (difference_pressures[2] + difference_pressures[3]) / 2
+			var v_z = (difference_pressures[4] + difference_pressures[5]) / 2
+			
+			velocity_next = Vector3(v_x, v_y, v_z)
 		
 	#Change in pressure for next state is based on total 'flow'
 	pressure_dif = netFlow 
@@ -66,6 +72,7 @@ func update(delta):
 ## Applies changes figured out from self.update()
 func apply():
 	pressure = pressure + pressure_dif
+	velocity = velocity_next
 	
 
 	
