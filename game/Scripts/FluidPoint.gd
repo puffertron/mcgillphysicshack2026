@@ -43,8 +43,8 @@ func setup(grid_pos, pos):
 
 ## Figures out changes for point in next time step (currently just updates pressure_dif)
 func update(delta):
-	#var results = feq.ciaranPropogation(domain, pressure, self, delta)
-	var results = feq.nvidaSolver(self, domain, delta)
+	var results = feq.ciaranPropogation(domain, pressure, self, delta)
+	#var results = feq.nvidaSolver(self, domain, delta)
 	pressure_dif = results[0]
 	velocity_dif = results[1]
 	
