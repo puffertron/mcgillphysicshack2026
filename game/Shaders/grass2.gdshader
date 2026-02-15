@@ -25,6 +25,7 @@ void vertex() {
 void fragment() {
 	vec3	 noiselevel = texture(noise, world_pos.xz /noise_scale).rgb;
 	ALBEDO =mix(color1, color2, UV.y);
+	
 }
 
 //void light() {
