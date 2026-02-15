@@ -73,7 +73,7 @@ func _input(event): # changing pressure
 							dir = Vector3(1, 0, 0)
 #						# Second set z component based on key position
 						var index = float(row.find(input))
-						z_pos = (index + 1) * 1/4
+						z_pos = (index + 1) * 1.0/4.0
 
 					if case == 2 or case == 3: # Up and Down
 						
@@ -84,9 +84,11 @@ func _input(event): # changing pressure
 						else:
 							z_pos = 1
 							dir = Vector3(0, 0, 1)
-						# Second set x component based on key position
+						# Second set x cwwomponent based on key position
 						var index = float(row.find(input))
-						x_pos = (index + 1) * (1/9)
+						print(index)
+						x_pos = (index + 1) * (1.0/9.0)
+						print(x_pos)
 						
 					# Now know x and z coord of new inlet or outlet
 					

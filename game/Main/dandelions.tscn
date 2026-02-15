@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://b0qg2i7fjjaa1"]
+
+[ext_resource type="Script" uid="uid://b5v6fr02su53o" path="res://Scripts/dandelions.gd" id="1_5vxn8"]
+
+[node name="Dandelions" type="Node3D" unique_id=844262600]
+script = ExtResource("1_5vxn8")
+
+[node name="Seed1" type="Node3D" parent="." unique_id=1160771686]
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Seed1" unique_id=933728730]
