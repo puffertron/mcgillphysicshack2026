@@ -166,7 +166,12 @@ func nd_diffuse(bb, value:Array, delta_value, diffusion, delta):
 	var v0 = nd.array(delta_value)
 	
 	#for k in range(20):
-	print(v.get(nd.range(1,-1)).get(&":", nd.range(1,-1)))
+	#print(v.get(nd.range(1,-1), nd.range(1,-1)))
+	#v.get(nd.range(1,-1), nd.range(1,-1)) = (
+		#v0.get(nd.range(1,-1), nd.range(1,-1))
+		#+ a * v.get(nd.range(0,-2), nd.range(1,-1))
+		#
+	#)
 	
 
 func diffuse(b, value:Array, delta_value, diffusion, delta):

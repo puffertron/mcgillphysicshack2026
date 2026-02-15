@@ -64,13 +64,8 @@ func _process(delta):
 	visualizer.material.set_shader_parameter("pressure_vis", float(pressure))
 	visualizer.material.set_shader_parameter("temperature_vis", temperature)
 	
-	if velocity.length():
-		old_basis = basis
-		var look_vec = -velocity.normalized()
-		basis = Basis(look_vec.cross(Vector3.RIGHT).normalized(), Vector3.RIGHT, look_vec)
-	else:
-		if old_basis:
-			basis = old_basis
+	look_at(global_transform.origin + velocity, Vector3.UP)
+
 		#counter += delta
 
 	
