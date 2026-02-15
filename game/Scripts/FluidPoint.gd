@@ -64,7 +64,7 @@ func _process(delta):
 	visualizer.material.set_shader_parameter("pressure_vis", float(pressure))
 	visualizer.material.set_shader_parameter("temperature_vis", temperature)
 	
-	look_at(global_transform.origin + velocity, Vector3.UP)
+	visualizer.look_at(global_transform.origin + velocity, Vector3.UP)
 
 		#counter += delta
 
