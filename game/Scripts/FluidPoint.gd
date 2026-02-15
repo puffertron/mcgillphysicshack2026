@@ -3,7 +3,9 @@ extends Node3D
 static var scene = load("res://fluid_point.tscn") 
 @onready var visualizer = $Visualizer
 @onready var highlight = $Highlight
+@onready var label = $Visualizer/Label3D
 
+var counter = 0
 
 
 var domain: FluidDomain
@@ -77,9 +79,13 @@ func apply():
 
 	
 
+func round_to_dec(num, digit):
+	return round(num * pow(10.0, digit)) / pow(10.0, digit)
 	
-	
-func process(delta):
+func _process(delta):
+	label.text = str(round_to_dec(pressure, 3))
 	visualizer.material.set_shader_parameter("pressure_vis", pressure)
 	visualizer.material.set_shader_parameter("temperature_vis", temperature)
+	#counter += delta
+
 	

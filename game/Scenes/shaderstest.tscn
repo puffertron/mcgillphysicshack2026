@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b4ocmry1shvy8"]
+
+[ext_resource type="Script" path="res://Scenes/shaderstest.gd" id="1_mrlik"]
+
+[node name="Shaderstest" type="Node3D" unique_id=80695994]
+script = ExtResource("1_mrlik")
