@@ -3,7 +3,7 @@ class_name FluidDomain
 
 @export var fluid_point_scene: PackedScene
 var fluid_points:Array[Array] #First element chooses x pos, second: y, third: z
-@export var field_size: Vector3i = Vector3i(10,1,10) 
+@export var field_size: Vector3i = Vector3i(3,0,3) 
 @export var cell_size: float = 1.0
 @onready var field_controller:Node3D = get_parent().get_node("FieldController")
 
@@ -15,6 +15,9 @@ const INOUTLET_MAG = 1 #Amount of flow through inlet or outlet
 func _ready():
 	generate_field(field_size,cell_size)
 	center_domain()
+	
+	var sim_params = generateFieldFast(field_size,cell_size)
+	print(nd_diffuse(1, sim_params[0], sim_params[1], 0 , 0))
 
 func _process(delta):
 	# Set points at control_points to be at specific value
@@ -126,3 +129,67 @@ func generate_field(size: Vector3i, cell_size: float):
 				new_point.domain = self
 				points_anchor.add_child(new_point)
 				fluid_points[x][y][z] = new_point
+
+func generateFieldFast(size: Vector3i, cell_size: float):
+	var real_size = size + Vector3i(2,0,2)
+	
+	var velocity_field_z = []
+	velocity_field_z.resize(real_size.z)
+	velocity_field_z.fill(Vector2.ZERO)
+	
+	var velocity_field_x = []
+	velocity_field_x.resize(real_size.x)
+	velocity_field_x.fill(velocity_field_z.duplicate_deep())
+	
+	var velocity_field = velocity_field_x.duplicate_deep()
+	var velocity_field_delta = velocity_field.duplicate_deep()
+	
+	var density_field_z = []
+	density_field_z.resize(real_size.z)
+	density_field_z.fill(0)
+	
+	var density_field_x = []
+	density_field_x.resize(real_size.x)
+	density_field_x.fill(velocity_field_z.duplicate_deep())
+	
+	var density_field = density_field_x.duplicate_deep()	
+	var density_field_delta = density_field.duplicate_deep()
+	
+	return [velocity_field, velocity_field_delta, density_field, density_field_delta]
+	
+
+func nd_diffuse(bb, value:Array, delta_value, diffusion, delta):
+	var a = delta * diffusion * field_size.x * field_size.z
+	
+	var v = nd.array(value)
+	var v0 = nd.array(delta_value)
+	
+	#for k in range(20):
+	print(v.get(nd.range(1,-1)).get(&":", nd.range(1,-1)))
+	
+
+func diffuse(b, value:Array, delta_value, diffusion, delta):
+	var a = delta * diffusion * field_size.x * field_size.z
+	
+	var diffusion_steps = 20
+	var sliced_x = value.slice(1, -1)
+	var sliced_xd = delta_value.slice(1, -1)
+	var sliced_z = []
+	var sliced_zd = []
+	for i in range(field_size.x):	
+		var s1 = sliced_x[i].slice(1,-1)
+		sliced_z.append(s1)
+		var s2 = sliced_xd[i].slice(1,-1)
+		sliced_zd.append(s2)
+		
+		var shifted_up 
+	
+		
+	
+	
+
+	for k in range(diffusion_steps):
+		pass
+
+
+	

@@ -3,7 +3,7 @@
 [ext_resource type="ArrayMesh" uid="uid://bkkimi43hpm2i" path="res://Meshes/grass2.res" id="1_mkjxw"]
 [ext_resource type="ArrayMesh" uid="uid://cgty04v5q25h" path="res://Meshes/grassgenarte.res" id="2_ybfty"]
 [ext_resource type="ArrayMesh" uid="uid://igoopqdi2tqj" path="res://Meshes/island_base.res" id="3_sce5l"]
-[ext_resource type="ArrayMesh" uid="uid://cevip8pnx6ia1" path="res://Meshes/island_grass.res" id="4_3vr4i"]
+[ext_resource type="ArrayMesh" uid="uid://b853j3yq56e3u" path="res://Meshes/island_grass.res" id="4_3vr4i"]
 
 [sub_resource type="MultiMesh" id="MultiMesh_1s1pr"]
 transform_format = 1

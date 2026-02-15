@@ -54,6 +54,14 @@ func ciaranPropogation(domain, pressure, point, delta):
 	#Change in pressure for next state is based on total 'flow'
 	return [netFlow, netVel]
 
+
+func numpySolver(point: FluidPoint, domain:FluidDomain, delta):
+	pass
+
+#u + v vel
+func npDiffuse():
+	pass
+
 func nvidaSolver(point: FluidPoint, domain:FluidDomain, delta):
 	#advection
 	var RDX = 1.0
@@ -66,7 +74,7 @@ func nvidaSolver(point: FluidPoint, domain:FluidDomain, delta):
 	
 	#jacob??
 	#inscrutable equations
-	var iterations = 10
+	var iterations = 20
 	var jacob_vel = advect_vel
 	
 	#doin this in advance cuz loop
