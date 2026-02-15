@@ -7,16 +7,18 @@ static var scene = load("res://fluid_point.tscn")
 
 var counter = 0
 
-
+var feq = FluidEquations.new()
 var domain: FluidDomain
+
 
 var highlighted : bool = false
 var grid_position :Vector3i
-var pressure : float
+var pressure : float = 5.0
 var pressure_dif: float #Amount of pressure to change next frame
 var density  : float
 var temperature  : float
 var velocity : Vector3
+var velocity_dif : Vector3
 var acceleration :  Vector3
 var viscosity : float
 
@@ -38,36 +40,14 @@ func setup(grid_pos, pos):
 
 ## Figures out changes for point in next time step (currently just updates pressure_dif)
 func update(delta):
-	# Get neighbors
-	var neighbors: Array[FluidPoint] = domain.get_orthogonal_neighbors(self)
+	var results = feq.ciaranPropogation(domain, pressure, self, delta)
+	pressure_dif = results[0]
+	velocity_dif = results[1]
 	
-	const flow_per_pressure = 1 #arbitrary constant representing how quick flow happens per change in pressure
-	# Calc pressure difference between each neighbor
-	var difference_pressure
-	var difference_pressures = []
-	var flows = []
-	var netFlow = 0
-	for i in range(6):
-		if neighbors[i] == null:
-			pass
-		else:
-			var incoming_pressure = neighbors[i].pressure
-			difference_pressure = pressure - incoming_pressure
-			difference_pressures.append(difference_pressure)
-		
-			# Calc flow between each neighbor
-			var flow = difference_pressure*delta*flow_per_pressure
-			flows.append(flow)
-			
-			# Sum total flow to know change for next state
-			netFlow += flow
-		
-	#Change in pressure for next state is based on total 'flow'
-	pressure_dif = netFlow 
-
-## Applies changes figured out from self.update()
 func apply():
 	pressure = pressure + pressure_dif
+	velocity += velocity_dif
+
 	
 
 	
@@ -76,8 +56,9 @@ func round_to_dec(num, digit):
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
 	
 func _process(delta):
+	
 	label.text = str(round_to_dec(pressure, 3))
-	visualizer.material.set_shader_parameter("pressure_vis", pressure)
+	visualizer.material.set_shader_parameter("pressure_vis", float(pressure))
 	visualizer.material.set_shader_parameter("temperature_vis", temperature)
 	#counter += delta
 
