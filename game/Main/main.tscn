@@ -7,6 +7,7 @@
 [node name="Main" type="Node3D" unique_id=1450472223]
 
 [node name="FluidDomain" parent="." unique_id=1575522211 instance=ExtResource("1_yh5la")]
+field_size = Vector3i(10, 1, 10)
 
 [node name="FieldController" parent="." unique_id=221814679 node_paths=PackedStringArray("domain") instance=ExtResource("2_2w1kt")]
 domain = NodePath("../FluidDomain")

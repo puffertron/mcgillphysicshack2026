@@ -23,6 +23,8 @@ var velocity_next : Vector3
 var acceleration :  Vector3
 var viscosity : float
 
+var old_basis
+
 func _ready():
 	highlight.visible = false
 
@@ -41,7 +43,8 @@ func setup(grid_pos, pos):
 
 ## Figures out changes for point in next time step (currently just updates pressure_dif)
 func update(delta):
-	var results = feq.ciaranPropogation(domain, pressure, self, delta)
+	#var results = feq.ciaranPropogation(domain, pressure, self, delta)
+	var results = feq.nvidaSolver(self, domain, delta)
 	pressure_dif = results[0]
 	velocity_dif = results[1]
 	
@@ -57,10 +60,17 @@ func round_to_dec(num, digit):
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
 	
 func _process(delta):
-	
 	label.text = str(round_to_dec(pressure, 3))
 	visualizer.material.set_shader_parameter("pressure_vis", float(pressure))
 	visualizer.material.set_shader_parameter("temperature_vis", temperature)
-	#counter += delta
+	
+	if velocity.length():
+		old_basis = basis
+		var look_vec = -velocity.normalized()
+		basis = Basis(look_vec.cross(Vector3.RIGHT).normalized(), Vector3.RIGHT, look_vec)
+	else:
+		if old_basis:
+			basis = old_basis
+		#counter += delta
 
 	
