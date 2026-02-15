@@ -3,7 +3,7 @@ class_name FluidDomain
 
 @export var fluid_point_scene: PackedScene
 var fluid_points:Array[Array] #First element chooses x pos, second: y, third: z
-@export var field_size: Vector3i = Vector3i(3,0,3) 
+@export var field_size: Vector3i = Vector3i(8,1,8) 
 @export var cell_size: float = 1.0
 @onready var field_controller:Node3D = get_parent().get_node("FieldController")
 
@@ -11,12 +11,14 @@ var fluid_points:Array[Array] #First element chooses x pos, second: y, third: z
 
 const INOUTLET_MAG = 1 #Amount of flow through inlet or outlet
 
+var sim_params:Array
+
 #creates a new field based on field size on ready
 func _ready():
 	generate_field(field_size,cell_size)
 	center_domain()
-	
-	var sim_params = generateFieldFast(field_size,cell_size)
+	print(generateFieldFast(field_size,cell_size))
+	sim_params = generateFieldFast(field_size,cell_size)
 	print(nd_diffuse(1, sim_params[0], sim_params[1], 0 , 0))
 
 func _process(delta):
@@ -25,12 +27,19 @@ func _process(delta):
 		var ctrl_point_in_pos = ctrl_point_in[0]
 		var ctrl_point_in_dir = ctrl_point_in[1]
 		if get_point_at_pos(ctrl_point_in_pos):
-			get_point_at_pos(ctrl_point_in_pos).velocity = ctrl_point_in_dir*INOUTLET_MAG
+			get_point_at_pos(ctrl_point_in_pos).pressure = ctrl_point_in_dir.length()*INOUTLET_MAG
+			get_point_at_pos(ctrl_point_in_pos).highlight_on()
 	for ctrl_point_out in field_controller.ctrl_points_out:
 		var ctrl_point_out_pos = ctrl_point_out[0]
 		var ctrl_point_out_dir = ctrl_point_out[1]
 		if get_point_at_pos(ctrl_point_out_pos):
-			get_point_at_pos(ctrl_point_out_pos).velocity = ctrl_point_out_dir*INOUTLET_MAG
+			get_point_at_pos(ctrl_point_out_pos).pressure = ctrl_point_out_dir.length()*INOUTLET_MAG
+	
+	#TODO - Kidane we are adding the fluidPoints updating stuff here
+	
+	#Calculate the next steps using sim_params
+	
+	#Tell the fluid_points to update
 	
 	
 	for xArray in fluid_points:
@@ -44,6 +53,16 @@ func _process(delta):
 			for fluid_point:FluidPoint in yArray:
 				#Runs once per fluid_point
 				fluid_point.apply()
+
+## This gets called every loop to update the fluidPoints with simParams
+func update_all_points():
+	for x in range(len(sim_params[0])):
+		for y in range(len(sim_params[0][0])):
+			for z in range(len(sim_params[0][0][0])):
+				# Go over every point
+#				Note, this structure is awful. We should rewrite this
+				fluid_points[x][y][z].density = sim_params[2][x][y][z]
+				fluid_points[x][y][z].velocity = sim_params[0][x][y][z]
 
 
 func center_domain():
@@ -89,9 +108,9 @@ func get_orthogonal_neighbors(point: FluidPoint) -> Array[FluidPoint]:
 func set_pressure(point: FluidPoint, pressure: float):
 	point.pressure = pressure
 
-## input 0 to 1
+## input 0 to 1, and should map from 0 to size - 1
 func fraction_to_grid_pos(pos: Vector3):
-	var grid_pos = Vector3i(round(pos.x * field_size.x),round(pos.y * field_size.y),round(pos.z * field_size.z))
+	var grid_pos = Vector3i(round(pos.x * (field_size.x - 1)),round(pos.y * (field_size.y - 1)),round(pos.z * (field_size.z - 1)))
 	return grid_pos
 
 func global_pos_to_grid_pos(global_pos: Vector3) -> Vector3i:
