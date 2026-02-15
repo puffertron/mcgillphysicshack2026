@@ -7,8 +7,6 @@ var fluid_points:Array[Array] #First element chooses x pos, second: y, third: z
 @export var cell_size: float = 1.0
 @onready var field_controller:Node3D = get_parent().get_node("FieldController")
 
-var sim_params 
-
 @onready var points_anchor = $PointsAnchor
 
 const INOUTLET_MAG = 1 #Amount of flow through inlet or outlet
@@ -45,6 +43,7 @@ func _process(delta):
 	
 	#KIDANE!!!!!!! we are adding the fluidPoints updating stuff here
 	#TODO - Calculate the next steps using sim_params
+	simulate_da_thing(0, sim_params[0], sim_params[1], 0.001, delta)
 	
 	#Tell the fluid_points to update
 	update_all_points()
@@ -195,32 +194,46 @@ func generateFieldFast(size: Vector3i, cell_size: float):
 	
 	
 	
-func simulate_da_thing(b, value:Array, delta_value, diffusion, delta):
+func simulate_da_thing(b, value, delta_value, diffusion, delta):
 	nd_diffuse(b, value, delta_value, diffusion, delta)
 	
 	
 
-func nd_diffuse(b, value:Array, delta_value, diffusion, delta):
+func nd_diffuse(b, v, v0, diffusion: float, delta):
 	var a = delta * diffusion * field_size.x * field_size.z
 	
-	var v = nd.array(value)
-	var v0 = nd.array(delta_value)
 	
 	for k in range(20):
 		#value to be set,       indexes
 		v.set(
-			v0.get(nd.range(1,-1), nd.range(1,-1)) + a * 
-			v.get(nd.range(0,-2), nd.range(1,-1)) + v.get(nd.range(2, &":"), nd.range(1,-1)) +
-			v.get(nd.range(1,-1), nd.range(0,-2)) + v.get(nd.range(1,-1), nd.range(2, &":")) 
-			/ (1 + 4 *  a),
-			nd.range(1,-1), nd.range(1,-1) )
+			nd.divide(
+				nd.add(
+					v0.get(nd.range(1,-1), nd.range(1,-1)), 
+					nd.multiply(a, nd.add( 
+						v.get(nd.range(0,-2), nd.range(1,-1)),
+						nd.add( 
+							v.get(nd.range(2, &":"), nd.range(1,-1)), 
+							nd.add(
+								v.get(nd.range(1,-1), nd.range(0,-2)),
+								v.get(nd.range(1,-1), nd.range(2, &":"))
+							)
+						)
+					))
+				),
+				(1 + 4 *  a)
+			),
+			nd.range(1,-1), nd.range(1,-1)
+			)
+			#v.get(nd.range(0,-2), nd.range(1,-1)) + v.get(nd.range(2, &":"), nd.range(1,-1)) +
+			#v.get(nd.range(1,-1), nd.range(0,-2)) + v.get(nd.range(1,-1), nd.range(2, &":"))))
+			
 		
 		self.set_boundary(b, v)
 
 func set_boundary(b, x):
 	if b ==1: #horizontal (x)
 		#set  | value to be set         | indexes to set at
-		x.set(-x.get(1, nd.range(1, -1)), 0, nd.range(1, -1))
+		x.set(nd.multiply( -1, x.get(1, nd.range(1, -1))) , 0, nd.range(1, -1))
 		x.set(-x.get(-2, nd.range(1, -1)),  -1, nd.range(1, -1))
 	else:
 		#set  | value to be set         | indexes to set at
