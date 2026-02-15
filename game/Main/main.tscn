@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b41mmxjvy638s" path="res://Nodes/FluidDomain.tscn" id="1_yh5la"]
 [ext_resource type="PackedScene" uid="uid://d2dxo3ta4h6uq" path="res://Scenes/FieldController.tscn" id="2_2w1kt"]
-[ext_resource type="PackedScene" path="res://Scenes/dandelions.tscn" id="3_qvhan"]
+[ext_resource type="PackedScene" uid="uid://crhs40hhtuw0p" path="res://Scenes/dandelions.tscn" id="3_qvhan"]
 
 [node name="Main" type="Node3D" unique_id=1450472223]
 

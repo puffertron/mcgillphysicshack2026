@@ -45,13 +45,18 @@ func ciaranPropogation(domain, pressure, point, delta):
 			difference_pressures.append(difference_pressure)
 		
 			# Calc flow between each neighbor
-			var flow = difference_pressure * delta * flow_per_pressure
+			var flow = -difference_pressure * delta * flow_per_pressure
 			flows.append(flow)
 			
 			# Sum total flow to know change for next state
 			netFlow += flow / 6
 		
 	#Change in pressure for next state is based on total 'flow'
+	
+	#TEMP - hjacking this function for testing
+	#netFlow = 0
+	#netVel
+	
 	return [netFlow, netVel]
 
 
