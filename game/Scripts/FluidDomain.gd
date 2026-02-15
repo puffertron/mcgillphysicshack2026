@@ -19,13 +19,14 @@ func _ready():
 	center_domain()
 	
 	sim_params = generateFieldFast(field_size,cell_size)
-	print(nd_diffuse(1, sim_params[0], sim_params[1], 0 , 0))
+	print(nd_diffuse(0, sim_params[0], sim_params[1], 0 , 0))
 
 func _process(delta):
 	# Set points at control_points to be at specific value
 	for ctrl_point_in in field_controller.ctrl_points_in:
 		var ctrl_point_in_pos = ctrl_point_in[0]
 		var ctrl_point_in_dir = ctrl_point_in[1]
+		sim_params[0]
 		sim_params[0][ctrl_point_in_pos.x][ctrl_point_in_pos.y][ctrl_point_in_pos.z].velocity = ctrl_point_in_dir*INOUTLET_MAG
 		
 		#OLD WAY when points were in charge of their own state
@@ -66,9 +67,10 @@ func _process(delta):
 
 ## This gets called every loop to update the fluidPoints with simParams
 func update_all_points():
-	for x in range(len(sim_params[0])):
-		for y in range(len(sim_params[0][0])):
-			for z in range(len(sim_params[0][0][0])):
+	print("MyTest:", sim_params[0][0])
+	for x in range(sim_params[0].shape[0]):
+		for y in range(sim_params[0][0].shape[0]):
+			for z in range(sim_params[0][0][0].shape[0]):
 				# Go over every point
 #				Note, this structure is awful. We should rewrite this
 				fluid_points[x][y][z].density = sim_params[2][x][y][z]
@@ -232,26 +234,52 @@ func nd_diffuse(b, v, v0, diffusion: float, delta):
 
 func set_boundary(b, x):
 	if b ==1: #horizontal (x)
-		#set  | value to be set         | indexes to set at
-		x.set(nd.multiply( -1, x.get(1, nd.range(1, -1))) , 0, nd.range(1, -1))
-		x.set(-x.get(-2, nd.range(1, -1)),  -1, nd.range(1, -1))
+		##set  | value to be set         | indexes to set at
+		#x.set(nd.multiply( -1, x.get(1, nd.range(1, -1))) , 0, nd.range(1, -1))
+		#x.set(-x.get(-2, nd.range(1, -1)),  -1, nd.range(1, -1))
+		print("FIX THIS, NOT IMPLEMENTED")
 	else:
 		#set  | value to be set         | indexes to set at
 		x.set(x.get(1, nd.range(1, -1)), 0, nd.range(1, -1))
 		x.set(x.get(-2, nd.range(1, -1)), -1, nd.range(1, -1))
 	if b == 2:
-		#set  | value to be set         | indexes to set at
-		x.set(-x.get(nd.range(1, -1), 1), nd.range(1, -1), 0)
-		x.set(-x.get(nd.range(1, -1), -2), nd.range(1, -1), -1)
+		##set  | value to be set         | indexes to set at
+		#x.set(-x.get(nd.range(1, -1), 1), nd.range(1, -1), 0)
+		#x.set(-x.get(nd.range(1, -1), -2), nd.range(1, -1), -1)
+		print("FIX THIS, NOT IMPLEMENTED")
 	else:
 		#set  | value to be set         | indexes to set at
 		x.set(x.get(nd.range(1, -1), 1), nd.range(1, -1), 0)
 		x.set(x.get(nd.range(1, -1), -2), nd.range(1, -1), -1)
 	
-	x.set( 0.5 * x.get(1,0) + x.get(0, 1), nd.range(0,0))
-	x.set( 0.5 * x.get(1,-1) + x.get(0, -2), nd.range(0,-1))
-	x.set( 0.5 * x.get(-2,0) + x.get(-1, 1), nd.range(-1,0))
-	x.set( 0.5 * x.get(-2,-1) + x.get(-1, -2), nd.range(-1,-1))
+	x.set( 
+		nd.multiply(
+			0.5,
+			nd.add(x.get(1,0), x.get(0, 1))
+		),
+		nd.range(0,0)
+	)
+	x.set( 
+		nd.multiply(
+			0.5,
+			nd.add(x.get(1,-1), x.get(0, 2))
+		),
+		nd.range(0,-1)
+	)
+	x.set( 
+		nd.multiply(
+			0.5,
+			nd.add(x.get(-2,0), x.get(-1, 1))
+		),
+		nd.range(-1,0)
+	)
+	x.set( 
+		nd.multiply(
+			0.5,
+			nd.add(x.get(-2,-1), x.get(-1, -2))
+		),
+		nd.range(-1,-1)
+	)
 	
 
 
