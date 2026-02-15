@@ -54,6 +54,16 @@ func ciaranPropogation(domain, pressure, point, delta):
 	#Change in pressure for next state is based on total 'flow'
 	
 	#TEMP - hjacking this function for testing
+	#var velocity = nd.array()
+	#var v0 = nd.array(delta_value)
+	
+	#for k in range(20):
+	#print(v.get(nd.range(1,-1), nd.range(1,-1)))
+	#v.get(nd.range(1,-1), nd.range(1,-1)) = (
+		#v0.get(nd.range(1,-1), nd.range(1,-1))
+		#+ a * v.get(nd.range(0,-2), nd.range(1,-1))
+		#
+	#)
 	#netFlow = 0
 	#netVel
 	

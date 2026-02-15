@@ -10,7 +10,7 @@ var counter = 0
 var feq = FluidEquations.new()
 var domain: FluidDomain
 
-
+#NOTE: Most defaults being overidden, using the defaults in sim params
 var highlighted : bool = false
 var grid_position :Vector3i
 var pressure : float = 5.0
@@ -64,7 +64,8 @@ func _process(delta):
 	visualizer.material.set_shader_parameter("pressure_vis", float(pressure))
 	visualizer.material.set_shader_parameter("temperature_vis", temperature)
 	
-	visualizer.look_at(global_transform.origin + velocity, Vector3.UP)
+	if velocity.length() != 0:
+		visualizer.look_at(global_transform.origin + velocity, Vector3.UP)
 
 		#counter += delta
 
