@@ -1,7 +1,20 @@
 [gd_scene format=3 uid="uid://crhs40hhtuw0p"]
 
-[node name="Dandelions" type="Node3D" unique_id=844262600]
+[ext_resource type="Script" uid="uid://b5v6fr02su53o" path="res://Scripts/dandelions.gd" id="1_5vxn8"]
+[ext_resource type="PackedScene" path="res://Scenes/FieldController.tscn" id="2_lqsny"]
+[ext_resource type="PackedScene" uid="uid://b41mmxjvy638s" path="res://Nodes/FluidDomain.tscn" id="2_orrfq"]
+
+[node name="Dandelions" type="Node3D" unique_id=844262600 node_paths=PackedStringArray("fluid_domain")]
+script = ExtResource("1_5vxn8")
+fluid_domain = NodePath("FluidDomain")
+
+[node name="FieldController" parent="." unique_id=221814679 instance=ExtResource("2_lqsny")]
 
 [node name="Seed1" type="Node3D" parent="." unique_id=1160771686]
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="Seed1" unique_id=933728730]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1811442027]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 10, 0)
+
+[node name="FluidDomain" parent="." unique_id=1575522211 instance=ExtResource("2_orrfq")]
