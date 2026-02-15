@@ -38,6 +38,7 @@ func _process(delta):
 		if get_point_at_pos(ctrl_point_out_pos):
 			#NOTE: Changed to just set pressure, original intent was to set velocity
 			get_point_at_pos(ctrl_point_out_pos).pressure = OUTLET_PRES
+			get_point_at_pos(ctrl_point_out_pos).highlight_on()
 	
 	#TODO - Kidane we are adding the fluidPoints updating stuff here
 	

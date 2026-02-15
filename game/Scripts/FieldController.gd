@@ -52,6 +52,10 @@ func _input(event): # changing pressure
 				#current_state = state_array[index]
 
 		if event.pressed and event.keycode == KEY_ENTER:
+			for ctrl_point_in in ctrl_points_in:
+				domain.get_point_at_pos(ctrl_point_in[0]).highlight_off()
+			for ctrl_point_out in ctrl_points_out:
+				domain.get_point_at_pos(ctrl_point_out[0]).highlight_off()
 			ctrl_points_in = []
 			ctrl_points_out = []
 
