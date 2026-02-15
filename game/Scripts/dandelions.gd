@@ -11,7 +11,7 @@ var val3 = randf_range(-1, 1)
 var direction: Variant = Vector3(val, 0, val3).normalized()
 var speed_var_rate = 0.5
 var direction_var_rate = 0.01
-var velocity: Variant = Vector3(0, 0, 0)
+var velocity: Variant = Vector3(1, 0, 1)
 
 # randomize movement of seed
 # find global position of seed, convert to grid position, identify pressure within that cell
@@ -34,8 +34,7 @@ func randomize_speed_and_direction():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	
 	grid_pos = fluid_domain.global_pos_to_grid_pos(Seed.position)
 	cell = fluid_domain.get_point_at_pos(grid_pos)
-	velocity = cell.velocity
-	print(velocity)
+	#velocity = cell.velocity
+	#print(velocity)
