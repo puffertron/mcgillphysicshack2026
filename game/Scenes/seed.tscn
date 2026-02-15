@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://duy1r3jenyurq"]
+
+[node name="Seed1" type="Node3D" unique_id=950465621]
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="." unique_id=1271901410]
